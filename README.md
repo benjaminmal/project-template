@@ -18,7 +18,7 @@ $ composer create-project elodgy/project-template my-project
       "Elodgy\\MyProject\\": "src/"
   },
   "autoload-dev": {
-    "Elodgy\\MyProject\\Tests\\": "tests"
+    "Elodgy\\MyProject\\Tests\\": "tests/"
   }
 }
 ```

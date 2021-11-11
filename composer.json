@@ -25,6 +25,6 @@
         "Elodgy\\Project\\": "src/"
     },
     "autoload-dev": {
-        "Elodgy\\Project\\Tests\\": "tests"
+        "Elodgy\\Project\\Tests\\": "tests/"
     }
 }
