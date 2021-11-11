@@ -30,5 +30,10 @@
         "psr-4": {
             "Elodgy\\Project\\Tests\\": "tests/"
         }
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "mv .gitattributes.disable .gitattributes"
+        ]
     }
 }
