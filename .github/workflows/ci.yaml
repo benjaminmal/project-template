@@ -65,7 +65,14 @@ jobs:
         run: 'vendor/bin/ecs check src --no-progress-bar --no-interaction --verbose --ansi'
 
       - name: 'PHPUnit tests'
-        run: 'vendor/bin/phpunit --verbose --color=always --fail-on-incomplete --fail-on-risky --no-interaction --do-not-cache-result'
+        run: 'vendor/bin/phpunit --verbose --coverage-clover ./coverage.xml --coverage-text --color=always --fail-on-incomplete --fail-on-risky --no-interaction --do-not-cache-result'
+
+      - name: Coverage check
+        id: coverage-check
+        uses: johanvanhelden/gha-clover-test-coverage-check@v1
+        with:
+          percentage: 98
+          filename: 'coverage.xml'
 
       - uses: actions/cache@v2
         with:
