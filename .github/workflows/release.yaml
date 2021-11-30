@@ -1,0 +1,44 @@
+name: "🚦 Create release 🚦"
+
+on:
+  push:
+    tags:
+      - "*"
+
+concurrency: release
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    name: '🚀 Deploy 🚀'
+
+    if: github.event_name == 'release' && github.event_action == 'created'
+    needs: tests
+
+    steps:
+
+      # --- ⚙️ Setup ⚙️ ----------
+
+      - name: "Checkout"
+        uses: actions/checkout@v2
+
+      - name: "Setup PHP"
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.0"
+          extensions: intl
+          tools: symfony
+          coverage: none
+
+      # --- 🛠 Test 🛠 ----------
+
+      - name: "Security checks"
+        run: symfony security:check
+
+      # --- 🚀 Deploy 🚀 ----------
+
+      - name: "Create release"
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
