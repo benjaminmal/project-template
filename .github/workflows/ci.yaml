@@ -79,6 +79,3 @@ jobs:
           path: ~/.symfony/cache
           key: ${{ runner.os }}-php-${{ matrix.php }}-symfony-${{ matrix.symfony }}
           restore-keys: ${{ runner.os }}-php-
-
-      - name: 'Check for security vulnerabilities'
-        run: 'symfony security:check'
