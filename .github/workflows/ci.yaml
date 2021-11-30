@@ -70,7 +70,7 @@ jobs:
         run: 'vendor/bin/ecs check src --no-progress-bar --no-interaction --verbose --ansi'
 
       - name: 'PHPUnit tests'
-        run: 'vendor/bin/phpunit --verbose --coverage-clover ./coverage.xml --coverage-text --color=always --fail-on-incomplete --fail-on-risky --no-interaction --do-not-cache-result'
+        run: 'vendor/bin/phpunit --verbose --coverage-clover ./coverage.xml --coverage-text --colors=always --fail-on-incomplete --fail-on-risky --no-interaction --do-not-cache-result'
 
       - name: Coverage check
         id: coverage-check
