@@ -30,7 +30,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          tools: symfony
           coverage: none
         env:
           COMPOSER_TOKEN: ${{ secrets.PAT }}
@@ -59,10 +58,10 @@ jobs:
         run: 'vendor/bin/var-dump-check --symfony --exclude vendor --exclude tests .'
 
       - name: 'PHPStan analyse'
-        run: 'vendor/bin/phpstan analyse --configuration=phpstan-ci.neon --error-format=github --no-progress --no-interaction --verbose --ansi'
+        run: 'vendor/bin/phpstan analyse --configuration=phpstan-ci.neon --error-format=github --no-progress --no-interaction --ansi'
 
       - name: 'ECS check'
-        run: 'vendor/bin/ecs check src --no-progress-bar --no-interaction --verbose --ansi'
+        run: 'vendor/bin/ecs check src --no-progress-bar --no-interaction --ansi'
 
       - name: 'PHPUnit tests'
         run: 'vendor/bin/phpunit --verbose --coverage-clover ./coverage.xml --coverage-text --colors=always --fail-on-incomplete --fail-on-risky --no-interaction --do-not-cache-result'
@@ -73,9 +72,3 @@ jobs:
         with:
           percentage: 98
           filename: 'coverage.xml'
-
-      - uses: actions/cache@v2
-        with:
-          path: ~/.symfony/cache
-          key: ${{ runner.os }}-php-${{ matrix.php }}-symfony-${{ matrix.symfony }}
-          restore-keys: ${{ runner.os }}-php-
