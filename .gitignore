@@ -74,5 +74,9 @@ Temporary Items
 /.phpunit.result.cache
 /phpunit.xml
 
+# Third party
 /vendor/
 /node_modules/
+
+# Composer
+composer.lock

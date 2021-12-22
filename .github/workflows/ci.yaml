@@ -42,7 +42,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: '${{ steps.composer-cache.outputs.dir }}'
-          key: "${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}"
+          key: "${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}"
           restore-keys: |
             ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
@@ -51,7 +51,7 @@ jobs:
 
       # --- 🛠 Test 🛠 ----------
 
-      - name: 'Validate composer.json and composer.lock'
+      - name: 'Validate composer.json'
         run: 'composer validate --strict --no-interaction --ansi --verbose'
 
       - name: 'Check for dump in code'
