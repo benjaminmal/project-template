@@ -12,7 +12,7 @@
         <server name="SHELL_VERBOSITY" value="-1"/>
     </php>
     <testsuites>
-        <testsuite name="Project Test Suite">
+        <testsuite name="Library Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>

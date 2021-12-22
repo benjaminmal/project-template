@@ -1,7 +1,7 @@
 {
-    "name": "elodgy/project-template",
-    "description": "E-Lodgy project template",
-    "type": "project",
+    "name": "elodgy/library-template",
+    "description": "E-Lodgy library template",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Elodgy\\Project\\": "lib/"
+            "Elodgy\\Library\\": "lib/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Elodgy\\Project\\Tests\\": "tests/"
+            "Elodgy\\Library\\Tests\\": "tests/"
         }
     },
     "scripts": {

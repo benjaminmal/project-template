@@ -1,24 +1,24 @@
-<h1 align="center">Project template</h1>
+<h1 align="center">Library template</h1>
 
 Installation & usage
 --------------------
-1. Create your project
+1. Create your library
 ```bash
-$ composer create-project elodgy/project-template my-project
+$ composer create-project elodgy/library-template my-library
 ```
 
-2. Modify composer.json to fit with your project
+2. Modify composer.json to fit with your library
 
 ```json
 {
-  "name": "elodgy/my-project",
-  "description": "My project",
+  "name": "elodgy/my-library",
+  "description": "My library",
   "type": "library",
   "autoload": {
-      "Elodgy\\MyProject\\": "lib/"
+      "Elodgy\\MyLibrary\\": "lib/"
   },
   "autoload-dev": {
-    "Elodgy\\MyProject\\Tests\\": "tests/"
+    "Elodgy\\MyLibrary\\Tests\\": "tests/"
   }
 }
 ```
