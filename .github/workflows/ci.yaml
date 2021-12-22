@@ -15,7 +15,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [7.4, 8.0, 8.1]
+        php: [8.0, 8.1]
 
     name: '🚧 Build application 🚧 | PHP ${{ matrix.php }}'
 
@@ -42,7 +42,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: '${{ steps.composer-cache.outputs.dir }}'
-          key: "${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json **/composer.lock') }}"
+          key: "${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}"
           restore-keys: |
             ${{ runner.os }}-php-${{ matrix.php }}-composer-
 
@@ -51,7 +51,7 @@ jobs:
 
       # --- 🛠 Test 🛠 ----------
 
-      - name: 'Validate composer.json and composer.lock'
+      - name: 'Validate composer.json'
         run: 'composer validate --strict --no-interaction --ansi --verbose'
 
       - name: 'Check for dump in code'
@@ -61,7 +61,7 @@ jobs:
         run: 'vendor/bin/phpstan analyse --configuration=phpstan-ci.neon --error-format=github --no-progress --no-interaction --ansi'
 
       - name: 'ECS check'
-        run: 'vendor/bin/ecs check src --no-progress-bar --no-interaction --ansi'
+        run: 'vendor/bin/ecs check lib ecs.php --no-progress-bar --no-interaction --ansi'
 
       - name: 'PHPUnit tests'
         run: 'vendor/bin/phpunit --verbose --coverage-clover ./coverage.xml --coverage-text --colors=always --fail-on-incomplete --fail-on-risky --no-interaction --do-not-cache-result'
