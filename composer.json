@@ -35,5 +35,11 @@
         "post-create-project-cmd": [
             "mv .gitattributes.disable .gitattributes"
         ]
+    },
+    "config": {
+        "allow-plugins": {
+            "phpstan/extension-installer": true,
+            "symfony/flex": true
+        }
     }
 }
