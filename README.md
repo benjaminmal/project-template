@@ -15,10 +15,14 @@ $ composer create-project elodgy/library-template my-library
   "description": "My library",
   "type": "library",
   "autoload": {
+    "psr-4": {
       "Elodgy\\MyLibrary\\": "lib/"
+    }
   },
   "autoload-dev": {
-    "Elodgy\\MyLibrary\\Tests\\": "tests/"
+    "psr-4": {
+      "Elodgy\\MyLibrary\\Tests\\": "tests/"
+    }
   }
 }
 ```
