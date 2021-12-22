@@ -15,7 +15,7 @@ $ composer create-project elodgy/project-template my-project
   "description": "My project",
   "type": "library",
   "autoload": {
-      "Elodgy\\MyProject\\": "src/"
+      "Elodgy\\MyProject\\": "lib/"
   },
   "autoload-dev": {
     "Elodgy\\MyProject\\Tests\\": "tests/"
