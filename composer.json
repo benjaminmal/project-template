@@ -33,7 +33,7 @@
     },
     "scripts": {
         "post-create-project-cmd": [
-            "mv .gitattributes.disable .gitattributes"
+            "mv .gitattributes.disabled .gitattributes"
         ]
     },
     "config": {
