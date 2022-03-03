@@ -16,7 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php: [8.0, 8.1]
+        php: ['8.0', '8.1']
 
     name: '🚧 Build application 🚧 | PHP ${{ matrix.php }}'
 
@@ -46,6 +46,7 @@ jobs:
           key: "${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}"
           restore-keys: |
             ${{ runner.os }}-php-${{ matrix.php }}-composer-
+            ${{ runner.os }}-php-
 
       - name: 'Install dependencies'
         run: 'composer update --no-interaction --no-progress --prefer-dist --ansi --verbose --no-scripts'
