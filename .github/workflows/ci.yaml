@@ -1,76 +1,75 @@
-name: 'Continuous integration'
+name: Continuous integration
 
 on:
-  pull_request: ~
-  workflow_dispatch: ~
-  release:
-    types: [created]
-  schedule:
-    - cron: '0 2 * * 1,4' # At 2am on Monday & Thursday
+    pull_request: ~
+    workflow_dispatch: ~
+    release:
+        types: [created]
+    schedule:
+        - cron: 0 2 * * 1,4 # At 2am on Monday & Thursday
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
+    build:
+        runs-on: ubuntu-latest
+        timeout-minutes: 10
 
-    strategy:
-      fail-fast: false
-      matrix:
-        php: ['8.0', '8.1']
+        strategy:
+            fail-fast: false
+            matrix:
+                php: [8.0, 8.1]
 
-    name: '🚧 Build application 🚧 | PHP ${{ matrix.php }}'
+        name: 🚧 Build 🚧 | PHP ${{ matrix.php }}
 
-    steps:
+        steps:
+            # --- ⚙️ Setup ⚙️ ----------
 
-      # --- ⚙️ Setup ⚙️ ----------
+            -   name: Checkout
+                uses: actions/checkout@v3
 
-      - name: 'Checkout'
-        uses: actions/checkout@v3
+            -   name: Setup PHP
+                uses: shivammathur/setup-php@v2
+                with:
+                    php-version: ${{ matrix.php }}
+                    coverage: none
+                env:
+                    COMPOSER_TOKEN: ${{ secrets.PAT }}
 
-      - name: 'Setup PHP'
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: ${{ matrix.php }}
-          coverage: none
-        env:
-          COMPOSER_TOKEN: ${{ secrets.PAT }}
+            -   name: Get Composer cache directory
+                id: composer-cache
+                run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: 'Get Composer cache directory'
-        id: composer-cache
-        run: 'echo "::set-output name=dir::$(composer config cache-files-dir)"'
+            -   name: Cache Composer
+                uses: actions/cache@v2
+                with:
+                    path: ${{ steps.composer-cache.outputs.dir }}
+                    key: ${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}
+                    restore-keys: |
+                        ${{ runner.os }}-php-${{ matrix.php }}-composer-
+                        ${{ runner.os }}-php-
 
-      - name: 'Cache Composer'
-        uses: actions/cache@v2
-        with:
-          path: '${{ steps.composer-cache.outputs.dir }}'
-          key: "${{ runner.os }}-php-${{ matrix.php }}-composer-${{ hashFiles('**/composer.json') }}"
-          restore-keys: |
-            ${{ runner.os }}-php-${{ matrix.php }}-composer-
-            ${{ runner.os }}-php-
+            -   name: Install dependencies
+                run: composer update --no-interaction --no-progress --prefer-dist --ansi --verbose --no-scripts
 
-      - name: 'Install dependencies'
-        run: 'composer update --no-interaction --no-progress --prefer-dist --ansi --verbose --no-scripts'
+            # --- 🛠 Test 🛠 ----------
 
-      # --- 🛠 Test 🛠 ----------
+            -   name: Validate composer.json
+                run: composer validate --strict --no-interaction --ansi --verbose
 
-      - name: 'Validate composer.json'
-        run: 'composer validate --strict --no-interaction --ansi --verbose'
+            -   name: Check for dump in code
+                run: vendor/bin/var-dump-check --symfony --exclude vendor --exclude tests .
 
-      - name: 'Check for dump in code'
-        run: 'vendor/bin/var-dump-check --symfony --exclude vendor --exclude tests .'
+            -   name: PHPStan analyse
+                run: vendor/bin/phpstan analyse --configuration=phpstan-ci.neon --error-format=github --no-progress --no-interaction --ansi
 
-      - name: 'PHPStan analyse'
-        run: 'vendor/bin/phpstan analyse --configuration=phpstan-ci.neon --error-format=github --no-progress --no-interaction --ansi'
+            -   name: ECS check
+                run: vendor/bin/ecs check lib ecs.php --no-progress-bar --no-interaction --ansi
 
-      - name: 'ECS check'
-        run: 'vendor/bin/ecs check lib ecs.php --no-progress-bar --no-interaction --ansi'
+            -   name: PHPUnit tests
+                run: vendor/bin/phpunit --verbose --coverage-clover ./coverage.xml --coverage-text --colors=always --fail-on-incomplete --fail-on-risky --no-interaction --do-not-cache-result
 
-      - name: 'PHPUnit tests'
-        run: 'vendor/bin/phpunit --verbose --coverage-clover ./coverage.xml --coverage-text --colors=always --fail-on-incomplete --fail-on-risky --no-interaction --do-not-cache-result'
-
-      - name: Coverage check
-        id: coverage-check
-        uses: johanvanhelden/gha-clover-test-coverage-check@v1
-        with:
-          percentage: 98
-          filename: 'coverage.xml'
+            -   name: Coverage check
+                id: coverage-check
+                uses: johanvanhelden/gha-clover-test-coverage-check@v1
+                with:
+                    percentage: 98
+                    filename: coverage.xml
