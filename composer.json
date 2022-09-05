@@ -1,19 +1,19 @@
 {
-    "name": "elodgy/library-template",
-    "description": "E-Lodgy library template",
+    "name": "benjaminmal/library-template",
+    "description": "Benjaminmal library template",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "benjaminmal",
-            "email": "bbenben778@gmail.com"
+            "name": "Benjamin Malgras",
+            "role": "developer"
         }
     ],
     "require": {
         "php": "^8.0"
     },
     "require-dev": {
-        "elodgy/coding-standard": "^1.0",
+        "benjaminmal/coding-standard": "^1.0",
         "phpstan/phpstan": "^1.2",
         "phpstan/extension-installer": "^1.1",
         "symfony/var-dumper": "^5.4 || ^6.0",
@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Elodgy\\Library\\": "lib/"
+            "Benjaminmal\\Library\\": "lib/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Elodgy\\Library\\Tests\\": "tests/"
+            "Benjaminmal\\Library\\Tests\\": "tests/"
         }
     },
     "scripts": {
