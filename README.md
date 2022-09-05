@@ -4,24 +4,24 @@ Installation & usage
 --------------------
 1. Create your library
 ```bash
-$ composer create-project elodgy/library-template my-library
+$ composer create-project benjaminmal/library-template my-library
 ```
 
 2. Modify composer.json to fit with your library
 
 ```json
 {
-  "name": "elodgy/my-library",
+  "name": "my-org/my-library",
   "description": "My library",
   "type": "library",
   "autoload": {
     "psr-4": {
-      "Elodgy\\MyLibrary\\": "lib/"
+      "MyNamespace\\MyLibrary\\": "lib/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Elodgy\\MyLibrary\\Tests\\": "tests/"
+      "MyNamespace\\MyLibrary\\Tests\\": "tests/"
     }
   }
 }
